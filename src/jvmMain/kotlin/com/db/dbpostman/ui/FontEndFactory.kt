@@ -18,7 +18,7 @@ import io.ktor.client.*
 
 class FontEndFactory {
     fun updateTheDatabase(persistentTab: PersistentTab): PersistentTab? {
-        println("Request to save Spersistent Tab")
+        println("Request to save $persistentTab")
         return Persistence.save(persistentTab)
     }
 
@@ -30,9 +30,9 @@ class FontEndFactory {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Button(
                 onClick = {
-                    val newtHeaders = persistentTab.value.headers?.toMutableList()
-                    newleaders?.add("" to "")
-                    persistentTab.value = persistentTab.value.copy(headers newtieaders)
+                    val newHeaders = persistentTab.value.headers?.toMutableList()
+                        newHeaders?.add("" to "")
+                    persistentTab.value = persistentTab.value.copy(headers = newHeaders)
                     updateTheDatabase(persistentTab.value)
                 }
             ) {
@@ -56,7 +56,7 @@ class FontEndFactory {
                     headers[index] = it to header.second
                     recalculateAndSaveHeader(tab, headers)
                 },
-                label(Text("Header Key")),
+                label{ Text("Header Key") },
                 modifier = Modifier.weight(0.5f)
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -81,8 +81,9 @@ class FontEndFactory {
 
     private fun recalculateAndSaveHeader(
         tab: MutableState<PersistentTab>,
-        headers: SnapshotStateList<Pair<String, String>
+        headers: SnapshotStateList<Pair<String, String>>
     ) {
+
         tab.value = tab.value.copy(headers = headers.toList())
         updateTheDatabase(tab.value)
     }
@@ -90,6 +91,7 @@ class FontEndFactory {
     @Composable
     fun verbComponent(tab: MutableState<PersistentTab>) {
         var menuExpanded by remenber { mutableStateOf(false) }
+
         Box(modifier = Modifier.fillMaxWidth()) {
             TextButton(
                 onClick = { menuExpanded = true },
