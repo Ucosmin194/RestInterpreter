@@ -30,8 +30,8 @@ kotlin {
                 implementation("io.ktor:ktor-client-json:1.6.4")
                 implementation("io.ktor:ktor-client-gson:1.6.4")
                 implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
-                implementation ("androidx.compose.ui:ui-tooling: SuiTooling")
-                implementation("com.github.BazaiHassan: Awesome ToastLibrary: 1.1")
+                implementation ("androidx.compose.ui:ui-tooling:$uiTooling")
+                implementation("com.github.BazaiHassan:AwesomeToastLibrary:1.1")
             }
         }
         val jvmTest by getting

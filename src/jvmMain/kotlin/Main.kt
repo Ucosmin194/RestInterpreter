@@ -85,7 +85,7 @@ fun MainScreen(client: HttpClient) {
                             )
                         )
                         println("Created new request ${newTab}")
-                        val content = TabContentFactory.TabItem("Request" newTab ?. id . toString (), newTab!!,
+                        val content = TabContentFactory.TabItem("Request" + newTab?.id.toString(), newTab!!,
                             screen = {
                                 tabContent(client, newTab)
                             })
