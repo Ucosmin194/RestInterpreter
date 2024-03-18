@@ -1,6 +1,6 @@
-package com.db.dbpostman.persistence
+package com.rest.interpreter.persistence
 
-import com.db.dbpostman.model.PersistentTab
+import com.rest.interpreter.model.PersistentTab
 
 interface Database {
     fun createTable()

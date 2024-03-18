@@ -1,7 +1,7 @@
-package com.db.dbpostman.persistence.impl
+package com.rest.interpreter.persistence.impl
 
-import com.db.dbpostman.model.PersistentTab
-import com.db.dbpostman.persistence.Database
+import com.rest.interpreter.model.PersistentTab
+import com.rest.interpreter.persistence.Database
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.sql.Connection

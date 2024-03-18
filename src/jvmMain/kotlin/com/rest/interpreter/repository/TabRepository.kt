@@ -1,7 +1,7 @@
-package com.db.dbpostman.repository
+package com.rest.interpreter.repository
 
-import com.db.dbpostman.model.PersistentTab
-import com.db.dbpostman.persistence.Persistence
+import com.rest.interpreter.model.PersistentTab
+import com.rest.interpreter.persistence.Persistence
 
 class TabRepository {
     fun saveTab(tab: PersistentTab) {

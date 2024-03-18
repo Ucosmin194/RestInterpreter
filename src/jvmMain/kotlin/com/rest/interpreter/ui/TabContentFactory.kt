@@ -1,8 +1,8 @@
-package com.db.dbpostman.ui
+package com.rest.interpreter.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import com.db.dbpostman.model.PersistentTab
+import com.rest.interpreter.model.PersistentTab
 
 object TabContentFactory {
     @Composable

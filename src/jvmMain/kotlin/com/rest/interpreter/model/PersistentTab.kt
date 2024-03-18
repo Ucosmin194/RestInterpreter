@@ -1,4 +1,4 @@
-package com.db.dbpostman.model
+package com.rest.interpreter.model
 
 data class PersistentTab(
     val id: Int,

@@ -1,7 +1,7 @@
-package com.db.dbpostman.external.rest
+package com.rest.interpreter.external.rest
 
 import androidx.compose.runtime.MutableState
-import com.db.dbpostman.model.PersistentTab
+import com.rest.interpreter.model.PersistentTab
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*

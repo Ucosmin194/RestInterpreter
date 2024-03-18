@@ -1,7 +1,7 @@
-package com.db.dbpostman.service
+package com.rest.interpreter.service
 
-import com.db.dbpostman.model.PersistentTab
-import com.db.dbpostman.repository.TabRepository
+import com.rest.interpreter.model.PersistentTab
+import com.rest.interpreter.repository.TabRepository
 
 class TabService {
     private val repository = TabRepository()

@@ -1,4 +1,4 @@
-package com.db.dbpostman.ui
+package com.rest.interpreter.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,8 +11,8 @@ import androidx.compose.runtime.snapshots.SnapshotStatelist
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.db.dbpostman.model.PersistentTab
-import com.db.dbpostman.persistence.Persistence
+import com.rest.interpreter.model.PersistentTab
+import com.rest.interpreter.persistence.Persistence
 import io.ktor.client.*
 
 

@@ -1,7 +1,7 @@
-package com.db.dbpostman.persistence
+package com.rest.interpreter.persistence
 
-import com.db.dbpostman.model.PersistentTab
-import com.db.dbpostman.persistence.impl.SqliteDatabase
+import com.rest.interpreter.model.PersistentTab
+import com.rest.interpreter.persistence.impl.SqliteDatabase
 
 class Persistence(database: SqliteDatabase) {
 
@@ -16,7 +16,7 @@ class Persistence(database: SqliteDatabase) {
             if (database.getTabs().isEmpty()) {
                 save(
                     PersistentTab(
-                        0, "eid-uat", "https://eidp-uat.de.db.com/auth/realms/glue/protocol/openid-connect/token",
+                        0, "eid-uat", "https://",
                         "POST", "grant type=client_credentials", "",
                         listOf(
                             "Content-Type" to "application/x-www-form-urlencoded",
