@@ -16,7 +16,7 @@ class Persistence(database: SqliteDatabase) {
             if (database.getTabs().isEmpty()) {
                 save(
                     PersistentTab(
-                        0, "eid-uat", "https://",
+                        0, "", "https://",
                         "POST", "grant type=client_credentials", "",
                         listOf(
                             "Content-Type" to "application/x-www-form-urlencoded",
