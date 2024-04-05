@@ -4,7 +4,7 @@ import com.rest.interpreter.model.PersistentTab
 import com.rest.interpreter.persistence.Persistence
 
 class TabRepository {
-    fun saveTab(tab: PersistentTab) {
+    infix fun saveTab(tab: PersistentTab) {
         Persistence.save(tab)
     }
 

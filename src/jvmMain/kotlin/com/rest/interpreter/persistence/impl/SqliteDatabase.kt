@@ -11,14 +11,14 @@ import java.sql.Statement
 
 class SqliteDatabase : Database {
     override fun createTable() {
-        val connection: Connection = DriverManager.getConnect.con("jdbc:sqlite:database.db")
+        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
         val statement: Statement = connection.createStatement()
 
         statement.execute("DROP TABLE IF EXISTS tabs")
 
         val createTableQuery = """
                                 CREATE TABLE IF NOT EXISTS tabs (
-                                    int INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     title TEXT NOT NULL,
                                     url TEXT NOT NULL,
                                     verb TEXT NOT NULL, 
@@ -39,10 +39,10 @@ class SqliteDatabase : Database {
         val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
         val statement: Statement = connection.createStatement()
         val gson = Gson()
-        val headers = gson.toJson[tab.headers)
+        val headers = gson.toJson(tab.headers)
         val insertQuery = """
                             INSERT INTO tabs (title, url, verb, requestBody, content, headers) 
-                            VALUES ('${tab.title}', '${tab.url}', '${tab.verb}', '${tab.requestBody}', '${tab.requestBody}', '$headersJson')
+                            VALUES ('${tab.title}', '${tab.url}', '${tab.verb}', '${tab.requestBody}', '${tab.requestBody}', '$headers')
                         """
 
         statement.executeUpdate(insertQuery)
@@ -94,7 +94,7 @@ class SqliteDatabase : Database {
         val resultSet = statement.executeQuery(selectQuery)
         val tabs = mutableListOf<PersistentTab>()
 
-        while (resultset.next()) {
+        while (resultSet.next()) {
             val tab = createTabFromResultSet(resultSet)
             tabs.add(tab)
         }
@@ -111,7 +111,7 @@ class SqliteDatabase : Database {
     ): PersistentTab {
         val id = resultSet.getInt("id")
         val title = resultSet.getString("title")
-        val url = resultSet.getString("urt")
+        val url = resultSet.getString("url")
         val verb = resultSet.getString("verb")
         val requestBody = resultSet.getString("requestBody")
         val content = resultSet.getString("content")
@@ -130,7 +130,7 @@ class SqliteDatabase : Database {
         val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.dt")
         val statement: Statement = connection.createStatement()
         val gson = Gson()
-        val headerJson = gson.toJson(tab.headers)
+        val headersJson = gson.toJson(tab.headers)
 
         val updateQuery = """
                             UPDATE tabs

@@ -7,7 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStatelist
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,7 +16,7 @@ import com.rest.interpreter.persistence.Persistence
 import io.ktor.client.*
 
 
-class FontEndFactory {
+object FontEndFactory {
     fun updateTheDatabase(persistentTab: PersistentTab): PersistentTab? {
         println("Request to save $persistentTab")
         return Persistence.save(persistentTab)
@@ -56,13 +56,13 @@ class FontEndFactory {
                     headers[index] = it to header.second
                     recalculateAndSaveHeader(tab, headers)
                 },
-                label{ Text("Header Key") },
+//                label{ Text("Header Key") },
                 modifier = Modifier.weight(0.5f)
             )
             Spacer(modifier = Modifier.width(8.dp))
             OutlinedTextField(
                 value = header.second,
-                onValueChange {
+                onValueChange = {
                     headers[index] = header.first to it
                     recalculateAndSaveHeader(tab, headers)
                 },
@@ -90,7 +90,7 @@ class FontEndFactory {
 
     @Composable
     fun verbComponent(tab: MutableState<PersistentTab>) {
-        var menuExpanded by remenber { mutableStateOf(false) }
+        var menuExpanded by remember { mutableStateOf(false) }
 
         Box(modifier = Modifier.fillMaxWidth()) {
             TextButton(
@@ -119,7 +119,7 @@ class FontEndFactory {
             }) {
                 Text("POST")
             }
-            DropdownMenuIten(onClick = {
+            DropdownMenuItem(onClick = {
                 tab.value = tab.value.copy(verb = "PUT")
                 menuExpanded = false
                 updateTheDatabase(tab.value)

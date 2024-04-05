@@ -37,9 +37,9 @@ fun App() {
 
 @Composable
 fun MainScreen(client: HttpClient) {
-    val selectedTab by remember { mutableStateOf(0) }
+    var selectedTab by remember { mutableStateOf(0) }
 
-    //Persistence.createDatabase()
+    Persistence.createDatabase()
 
 
     val tabs by remember {
@@ -121,7 +121,7 @@ fun tabContent(client: HttpClient, tab: PersistentTab) {
         urlComponent(tabState)
 
         tabState.value.headers?.forEachIndexed { index, header ->
-            createMeader(header, tabState.value.headers?.toMutableStateList()!!, index, tabstate)
+            createHeader(header, tabState.value.headers?.toMutableStateList()!!, index, tabState)
         }
 
         if (tabState.value.verb == "POST" || tabState.value.verb == "PUT") {
@@ -196,7 +196,7 @@ fun responseComponent(tab: MutableState<PersistentTab>) {
 fun main() = application {
     Window(
         title = "dbPostman",
-        onCloseRequest::exitApplication
+        onCloseRequest = ::exitApplication
     ) {
         App()
 

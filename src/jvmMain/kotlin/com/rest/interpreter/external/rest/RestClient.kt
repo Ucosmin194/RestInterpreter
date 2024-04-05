@@ -5,7 +5,6 @@ import com.rest.interpreter.model.PersistentTab
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import java.net.http.HttpClient
 
 object RestClient {
     suspend fun sendRequest(
