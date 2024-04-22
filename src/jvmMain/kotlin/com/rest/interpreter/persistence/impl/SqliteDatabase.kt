@@ -127,7 +127,7 @@ class SqliteDatabase : Database {
 
     //fixme fix update function
     override fun update(tab: PersistentTab): PersistentTab? {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.dt")
+        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
         val statement: Statement = connection.createStatement()
         val gson = Gson()
         val headersJson = gson.toJson(tab.headers)
