@@ -3,9 +3,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+database.db
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
+.idea/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
