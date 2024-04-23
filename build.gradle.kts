@@ -24,7 +24,7 @@ kotlin {
         useJUnitPlatform()
     }
     sourceSets {
-        val uiTooling = "1.6.0"
+        val uiTooling = "1.4.3"
         val sqliteVersion = "3.36.0.1"
         val jvmMain by getting {
             dependencies {
