@@ -1,7 +1,7 @@
 package com.rest.interpreter.model
 
 data class User(
-    val userId: String,
+    val userId: Int,
     val name: String,
     val email: String,
     val workspaces: MutableList<Workspace> = mutableListOf()
@@ -9,7 +9,7 @@ data class User(
     fun createWorkspace(workspace: Workspace) {
         workspaces.add(workspace)
     }
-    fun deleteWorkspace(workspaceId: String) {
+    fun deleteWorkspace(workspaceId: Int) {
         workspaces.removeAll { it.workspaceId == workspaceId }
     }
     fun listWorkspaces(): List<Workspace> = workspaces

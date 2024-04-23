@@ -1,8 +1,8 @@
 package com.rest.interpreter.model
 
 data class Request(
-    val requestId: String,
-    val collectionId: String,
+    val requestId: Int,
+    val collectionId: Int,
     val method: String,
     val url: String,
     val headers: MutableMap<String, String> = mutableMapOf(), // JSON string or another encoding if necessary

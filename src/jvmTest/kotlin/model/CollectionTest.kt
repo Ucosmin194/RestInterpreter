@@ -8,10 +8,10 @@ class CollectionTest {
 
     @Test
     fun testCollection() {
-        val collection = Collection("1", "Test Collection", "1", "1")
-        assertEquals("1", collection.collectionId)
+        val collection = Collection(1, "Test Collection", 1, 1)
+        assertEquals(1, collection.collectionId)
         assertEquals("Test Collection", collection.name)
-        assertEquals("1", collection.workspaceId)
-        assertEquals("1", collection.userId)
+        assertEquals(1, collection.workspaceId)
+        assertEquals(1, collection.userId)
     }
 }

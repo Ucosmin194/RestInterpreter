@@ -1,8 +1,8 @@
 package com.rest.interpreter.model
 
 data class Test(
-    val testId: String,
-    val requestId: String,
+    val testId: Int,
+    val requestId: Int,
     val script: String
 ) {
     fun execute(requestResponse: Response): TestResult {
