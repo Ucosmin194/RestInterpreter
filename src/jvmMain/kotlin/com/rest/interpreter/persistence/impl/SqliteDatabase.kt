@@ -4,19 +4,25 @@ import com.rest.interpreter.model.PersistentTab
 import com.rest.interpreter.persistence.Database
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.rest.interpreter.persistence.Persistence.Companion.getTabById
+import io.ktor.network.sockets.*
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.sql.Statement
 
 class SqliteDatabase : Database {
+    private fun databaseConnection(): Connection {
+        return DriverManager.getConnection("jdbc:sqlite:database.db")
+    }
+
     override fun createTable() {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
 
-        statement.execute("DROP TABLE IF EXISTS tabs")
+            statement.execute("DROP TABLE IF EXISTS tabs")
 
-        val createTableQuery = """
+            val createTableQuery = """
                                 CREATE TABLE IF NOT EXISTS tabs (
                                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     title TEXT NOT NULL,
@@ -28,82 +34,78 @@ class SqliteDatabase : Database {
                                 );
                             """
 
-        statement.executeUpdate(createTableQuery)
+            statement.executeUpdate(createTableQuery)
 
-        statement.close()
-        connection.close()
-
+            statement.close()
+        }
     }
 
     override fun save(tab: PersistentTab): PersistentTab? {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
-        val gson = Gson()
-        val headers = gson.toJson(tab.headers)
-        val insertQuery = """
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
+            val gson = Gson()
+            val headers = gson.toJson(tab.headers)
+            val insertQuery = """
                             INSERT INTO tabs (title, url, verb, requestBody, content, headers) 
                             VALUES ('${tab.title}', '${tab.url}', '${tab.verb}', '${tab.requestBody}', '${tab.requestBody}', '$headers')
                         """
 
-        statement.executeUpdate(insertQuery)
+            statement.executeUpdate(insertQuery)
 
-        val generatedKeys = statement.generatedKeys
-        generatedKeys.next()
-        val id = generatedKeys.getInt(1)
+            val generatedKeys = statement.generatedKeys
+            generatedKeys.next()
+            val id = generatedKeys.getInt(1)
 
-        statement.close()
-        connection.close()
-        return getTabById(id)
+            statement.close()
+            return getTabById(id)
+        }
     }
 
     override fun getTabById(id: Int): PersistentTab? {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
-        val selectQuery = "SELECT * FROM tabs WHERE id = $id"
-        val resultSet = statement.executeQuery(selectQuery)
-        var tab: PersistentTab? = null
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
+            val selectQuery = "SELECT * FROM tabs WHERE id = $id"
+            val resultSet = statement.executeQuery(selectQuery)
+            var tab: PersistentTab? = null
 
-        if (resultSet.next()) {
-            tab = createTabFromResultSet(resultSet)
+            if (resultSet.next()) {
+                tab = createTabFromResultSet(resultSet)
+            }
+
+            resultSet.close()
+            statement.close()
+            return tab
         }
-
-        resultSet.close()
-        statement.close()
-        connection.close()
-
-        return tab
     }
 
     override fun delete(persistentTab: PersistentTab) {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
-        val selectQuery = "DELETE FROM tabs WHERE id = ${persistentTab.id}"
-        val deleteSuccessful = statement.execute(selectQuery)
-        println("Deleted $persistentTab $deleteSuccessful")
-        statement.close()
-        connection.close()
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
+            val selectQuery = "DELETE FROM tabs WHERE id = ${persistentTab.id}"
+            val deleteSuccessful = statement.execute(selectQuery)
+            println("Deleted $persistentTab $deleteSuccessful")
+            statement.close()
+        }
     }
 
     override fun getTabs(): List<PersistentTab> {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
-
-        val selectQuery = """
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
+            val selectQuery = """
                             SELECT * FROM tabs;
                         """
-        val resultSet = statement.executeQuery(selectQuery)
-        val tabs = mutableListOf<PersistentTab>()
+            val resultSet = statement.executeQuery(selectQuery)
+            val tabs = mutableListOf<PersistentTab>()
 
-        while (resultSet.next()) {
-            val tab = createTabFromResultSet(resultSet)
-            tabs.add(tab)
+            while (resultSet.next()) {
+                val tab = createTabFromResultSet(resultSet)
+                tabs.add(tab)
+            }
+
+            resultSet.close()
+            statement.close()
+            return tabs
         }
-
-        resultSet.close()
-        statement.close()
-        connection.close()
-
-        return tabs
     }
 
     private fun createTabFromResultSet(
@@ -127,12 +129,12 @@ class SqliteDatabase : Database {
 
     //fixme fix update function
     override fun update(tab: PersistentTab): PersistentTab? {
-        val connection: Connection = DriverManager.getConnection("jdbc:sqlite:database.db")
-        val statement: Statement = connection.createStatement()
-        val gson = Gson()
-        val headersJson = gson.toJson(tab.headers)
+        databaseConnection().use { connection ->
+            val statement: Statement = connection.createStatement()
+            val gson = Gson()
+            val headersJson = gson.toJson(tab.headers)
 
-        val updateQuery = """
+            val updateQuery = """
                             UPDATE tabs
                             SET title = '${tab.title}', 
                                 url = '${tab.url}',
@@ -142,11 +144,12 @@ class SqliteDatabase : Database {
                                 headers = '$headersJson'
                             WHERE id = ${tab.id}
                           """
-        statement.executeUpdate(updateQuery)
+            statement.executeUpdate(updateQuery)
 
-        statement.close()
-        connection.close()
+            statement.close()
+            connection.close()
 
-        return getTabById(tab.id)
+            return getTabById(tab.id)
+        }
     }
 }

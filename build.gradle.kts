@@ -20,10 +20,12 @@ kotlin {
         jvmToolchain(19)
         withJava()
     }
+    tasks.named<Test>("jvmTest") {
+        useJUnitPlatform()
+    }
     sourceSets {
-        val uiTooling = "1.6.0"
+        val uiTooling = "1.4.3"
         val sqliteVersion = "3.36.0.1"
-        val roomVersion = "2.6.1"
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
@@ -36,17 +38,15 @@ kotlin {
                 implementation("org.xerial:sqlite-jdbc:$sqliteVersion")
                 implementation("androidx.compose.ui:ui-tooling:$uiTooling")
                 implementation("com.github.BazaiHassan:AwesomeToastLibrary:1.1")
-                implementation("androidx.room:room-runtime:$roomVersion")
-//                kapt("androidx.room:room-compiler:$roomVersion")
-
-                // Optional - Kotlin Extensions and Coroutines support for Room
-                implementation("androidx.room:room-ktx:$roomVersion")
-
             }
         }
         val jvmTest by getting {
             dependencies{
-                implementation("androidx.room:room-testing:$roomVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+                implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+                implementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+                implementation("org.mockito:mockito-core:5.10.0")
+                implementation("org.mockito:mockito-junit-jupiter:5.10.0")
             }
         }
     }
